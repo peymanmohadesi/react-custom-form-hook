@@ -22,7 +22,8 @@ function App() {
   }
   const [data, onChange, onSubmit] = useForm(
     initialFields,
-    (data) => console.log("Submited data: ", data)
+    (data) => console.log("Submited data: ", data),
+    () => alert("Complete the fields correctly.")
   )
 
   const { userName, firstName, lastName, email, date } = data
