@@ -1,14 +1,16 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 
-export function useForm(initialData: object = {}, onSubmit: (FormData: object) => void) {
+export function useForm(initialData: object = {}, onSubmit: (FormData: object) => void, onSubmitFailed: () => void) {
 
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState(initialData); // State to store form data
 
+    // onChange handler
     const onChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             let error = "";
             const input = e.target;
 
+            // Validate form fields
             if (input.required && !input.value) {
                 error = `${input.name} field is Required`
             } else if (input.type == "email" && !input.value.includes("@")) {
@@ -24,6 +26,7 @@ export function useForm(initialData: object = {}, onSubmit: (FormData: object) =
         [data],
     )
 
+    // Submit handler
     const onSubmitHandler = (e: FormEvent) => {
         e.preventDefault();
 
@@ -41,7 +44,7 @@ export function useForm(initialData: object = {}, onSubmit: (FormData: object) =
         if (!hasError && !isEmpty)
             onSubmit?.(data);
         else
-            alert("Complete the fields correctly.")
+            onSubmitFailed()
     }
 
     return ([data, onChange, onSubmitHandler])
