@@ -15,10 +15,16 @@ export function useForm(initialData: object = {}, onSubmit: (FormData: object) =
                 error = `${input.name} field is Required`
             } else if (input.type == "email" && !input.value.includes("@")) {
                 error = `This field shoud be Email`
-            } else if (input.min && input.value.length < parseInt(input.min)) {
-                error = `The length of the field must be more than ${input.min} characters`
-            } else if (input.max && input.value.length > parseInt(input.max)) {
-                error = `The length of the field must be less than ${input.max} characters`
+            } else if (input.min) {
+                if (input.type == "text" && input.value.length < parseInt(input.min))
+                    error = `The length of the field must be more than ${input.min} characters`
+                else if (input.type == "number" && input.value < input.min)
+                    error = `The field value must be greater than ${input.min}`
+            } else if (input.max) {
+                if (input.type == "text" && input.value.length > parseInt(input.max))
+                    error = `The length of the field must be less than ${input.max} characters`
+                else if (input.type == "number" && input.value > input.max)
+                    error = `The field value must be less than ${input.max}`
             }
 
             setData({ ...data, [input.name]: { value: input.value, type: input.type, required: input.required, error } })
