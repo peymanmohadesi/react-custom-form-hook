@@ -10,7 +10,8 @@ type initialFieldsProps = {
   firstName: string,
   lastName: string,
   email: string,
-  date: Date
+  date: Date,
+  length: number
 }
 function App() {
   const initialFields: initialFieldsProps = {
@@ -18,7 +19,8 @@ function App() {
     firstName: "",
     lastName: "",
     email: "",
-    date: new Date()
+    date: new Date(),
+    length: 0
   }
   const [data, onChange, onSubmit] = useForm(
     initialFields,
@@ -26,7 +28,7 @@ function App() {
     () => alert("Complete the fields correctly.")
   )
 
-  const { userName, firstName, lastName, email, date } = data
+  const { userName, firstName, lastName, email, date, length } = data
 
 
   return (
@@ -62,6 +64,12 @@ function App() {
           <label htmlFor="date">Birthdate</label>
           <input type="date" name="date" value={date.value} onChange={onChange} />
           <span className={styles.error}>{date.error}</span>
+        </div>
+
+        <div className={styles.inputHolder}>
+          <label htmlFor="date">Length of trip</label>
+          <input type="number" name="length" min={2} value={length.value} onChange={onChange} />
+          <span className={styles.error}>{length.error}</span>
         </div>
 
         <div className={styles.inputHolder}>
